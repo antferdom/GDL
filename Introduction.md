@@ -58,7 +58,7 @@ This idea was so **unconventional** and **theoretical** at the time of the publi
 > $$
 > \sqrt{\sum{dx^2}}
 > $$
-> are therefore only a particular case of the manifolds to be here investigated; they require a special name, and therefore these manifolds in which the square of the line-element may be expressed as the sum of the squares of complete differentials I will call **flat**.”
+> are therefore only a particular case of the manifolds to be here investigated; they require a special name, and therefore these manifolds in which the square of the line-element may be expressed as the sum of the squares of complete differentials I will call **flat**.” **Riemann**
 
 **Last nail in euclid's coffin**
 **Gauss's** own Ph.D student **Bernard Riemann**. In his lecture on the hypothesis on which geometry is based, he basically formulated what is nowadays called **differential geometry of surfaces**.
@@ -83,7 +83,7 @@ Towards the end of the **1800s** these geometries became **non-unified** fields.
 **Erlangen Programme**
 Klein proposed a very **radical** approach of **treating** geometry as the **study of invariants** and **symmetries**. These are the **properties** that remain **unchanged** under some class of **transformation**. This approach immediately created clarity by showing that **different** geometries could be defined by an appropriated choice of **symmetry**.
 
-![Erlangen Programme](./img/introduction/Erlangen Programme.png)
+![Erlangen Programme](./img/introduction/Erlangen_Programme.png)
 
 **Example**: 
 Euclidian geometry are **rigid motions**. These are **translations, reflections and rotations** that **preserves** properties such as **angles, distances, areas, parallelism of lines and their intersections**.
