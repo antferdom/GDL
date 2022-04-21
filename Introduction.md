@@ -206,12 +206,12 @@ $$
 
 The model itself is a set of unspecified functions.
 
-Let $$f \: [0,1]^{d} \mapsto \mathbb{R}$$ be continuous. There exists **univariate** continuous functions $g_{q}, \Psi_{p,q}$, such that $f(x_{1},...,x_{d}) = \sum_{q=0}^{2d}g_{q} \Big ( \Psi_{p,q}(x_{p})\Big)$ 
-Nowadays there are better representations than the one exposed here. There are **3** main reasons why there are no explicit formulas for $g_{q}, \Psi_{p,q}$.
+Let $$f \: [0,1]^{d} \mapsto \mathbb{R}$$ be continuous. There exists **univariate** continuous functions $$g_{q}, \Psi_{p,q}$$, such that $$f(x_{1},...,x_{d}) = \sum_{q=0}^{2d}g_{q} \Big ( \Psi_{p,q}(x_{p})\Big)$$ 
+Nowadays there are better representations than the one exposed here. There are **3** main reasons why there are no explicit formulas for $$g_{q}, \Psi_{p,q}$$.
 
 1. The proofs of these theorems are **non-constructive**.
-2. The **outer function**, $g_{q}$ highly depends on $f$ so we can't just choose one.
-3. The **inner function**  $\Psi_{p,q}$ is continuous.
+2. The **outer function**, $$g_{q}$$ highly depends on $$f$$ so we can't just choose one.
+3. The **inner function**  $$\Psi_{p,q}$$ is continuous.
 
 ***NOTE***: THE THEOREM ONLY STATES EXISTENTS OF THESE FUNCTIONS.
 
@@ -225,5 +225,5 @@ can be decomposed as in the theorem since it's a summation of continuous univari
 $$
 g_{1}(x) = x \:, \Psi_{1,1}(x_1) = x_{1}^2 \:, \Psi_{2,1}(x_2) = x_2
 $$
-and for all the other functions to be set with $g_q = \Psi_{p,q} =0$.
+and for all the other functions to be set with $$g_q = \Psi_{p,q} =0$$.
 
