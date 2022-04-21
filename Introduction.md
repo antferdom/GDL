@@ -206,7 +206,7 @@ $$
 
 The model itself is a set of unspecified functions.
 
-Let $f \: [0,1]^{d} \mapsto \mathbb{R}$ be continuous. There exists **univariate** continuous functions $g_{q}, \Psi_{p,q}$, such that $f(x_{1},...,x_{d}) = \sum_{q=0}^{2d}g_{q} \Big ( \Psi_{p,q}(x_{p})\Big)$ 
+Let $$f \: [0,1]^{d} \mapsto \mathbb{R}$$ be continuous. There exists **univariate** continuous functions $g_{q}, \Psi_{p,q}$, such that $f(x_{1},...,x_{d}) = \sum_{q=0}^{2d}g_{q} \Big ( \Psi_{p,q}(x_{p})\Big)$ 
 Nowadays there are better representations than the one exposed here. There are **3** main reasons why there are no explicit formulas for $g_{q}, \Psi_{p,q}$.
 
 1. The proofs of these theorems are **non-constructive**.
