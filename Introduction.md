@@ -180,24 +180,28 @@ These two trends have led to the design of **rich function classes** that have t
 Neural networks of course are **not new at all**. They are at least **70 years** old, so the first works are from the **50s** and  with a very **simple** choice of **architecture**, the so called **perceptron**. This type of architecture is probably the earliest and **simplest** neural network.
 
 
+
+
 ## Universal Approximation
 
 We can show that if we **connect** just **2 layers** of such networks, **perceptron**, what is called **multi-layer perceptron** or a perceptron with one **hidden layer**, it produces a **dense** class of functions.
 In other words, we can **approximate any continuous function** or even broader class of functions to **any** desired **accuracy**. We call this **property** universal approximation.
 It is a very **general** architecture than can **represent** practically **anything**.
 
+![Cybenko 1989; Hornik 1991; Barron 1993; Leshno et al 1993; Maiorov 1999; Pinkus 1999](./img/introduction/universal_approximation.png)
+
 ### Kolmogorov–Arnold representation theorem: Model as a form of Artificial Intelligence
 
 At the second [International Congress of Mathematicians](http://en.wikipedia.org/wiki/International_Congress_of_Mathematicians) in Paris 1900, [Hilbert](http://en.wikipedia.org/wiki/David_Hilbert) presented ten of his [23 problems](http://en.wikipedia.org/wiki/Hilbert's_problems), including the [13th problem](http://en.wikipedia.org/wiki/Hilbert's_thirteenth_problem) about equations of degree seven. He considered the following equation,
 $$
-x7+ax3+bx2+cx+1=0,
+x^7+ax^3+bx^2+cx+1=0,
 $$
 and asked whether its solution $x(a,b,c)$, seen as a function of the three parameters a, b and c, can be written as the **composition** of functions of only two variables.
 
 **Hilbert's 13th problem statement**: _Solve 7th degree equation using algebraic (variant: continuous) functions  of two parameters_.
 
 **Kolmogorov-Arnold representation theorem**:
-The model assumes that an output parameter $z$ depends on vector input parameters $x$. Kolmogorov-Arnold formal model requires the continuity, but we relax this condition and assume that small increments in the inputs are causing small differences in the output.
+The model assumes that an output parameter $$z$$ depends on vector input parameters $$x$$. Kolmogorov-Arnold formal model requires the continuity, but we relax this condition and assume that small increments in the inputs are causing small differences in the output.
 $$
 z = F(x_1,x_2,...,x_n) \\
 z \: + \Delta z =  F(x_1 \: + \Delta x_1,x_2 \: + \Delta x_2,...,x_n \: + \Delta x_n \\
@@ -227,3 +231,21 @@ g_{1}(x) = x \:, \Psi_{1,1}(x_1) = x_{1}^2 \:, \Psi_{2,1}(x_2) = x_2
 $$
 and for all the other functions to be set with $$g_q = \Psi_{p,q} =0$$.
 
+## The Curse of Dimensionality
+
+![](./img/introduction/function_curse.png)
+
+This is a very well studied problem in **approximation theory** and in **low dimensions** we have a lot of results that tell us exactly how the **error** will behave. An example of these behaviours could be **how** the error would occur if we **sample** our data in a certain way. It has been studied very extensively over the **past century** or even more but the situation appears to be **absolutely** different in **high dimensions**. 
+Even if we pick a very nice class of functions of the so called **lipschitz continuous functions**.
+
+
+
+![Lipschitz functions: superposition of gaussian blobs put in quadrants of a unit cube](./img/introduction/ex_lipschitz_continuous functions.png)
+
+What we will find out very quickly that as the **dimensionality** of this **space**, the unit cube, grows then the **number of samples** grow **exponentially**. This phenomenon is colloquially known as the curse of dimensionality. Modern machine learning methods need to operate with data not in two or three dimensions but in **thousands** or even **millions** dimensions. **Images** can serve as an illustrative example of very high dimensional input space.
+
+![Exponential growth explosion](./img/introduction/complexity_explosion.png)
+
+The curse of dimensionality is simply an inevitable God's curse accompanying every machine learning problem. Therefore the previous exposed naive approach to learning is completely impossible to achieve.
+
+This is probably best seen in **computer vision** applications like **image classification**. Since images are well known as high dimensional input space, even for example tiny images from [MNIST data set](http://yann.lecun.com/exdb/mnist/), they are almost thousand dimension. But if we look deeper at this problem, intuitively we see that there is a lot of **structure**.
