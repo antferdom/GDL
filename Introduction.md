@@ -105,7 +105,7 @@ E. Noether, she was Klein's colleagues in Gothengen, she **proved** that every d
 
 ### Standar model in particle physics
 
-After several decades **non-abelian gauge theory**, it was finally possible in a theory that was developed by **Yang** & **Mills** in **1954** to provide a **unified frameword** that describes all the fundamental forces of nature, with the exception of gravity. This is what is called the standard model in the particle physics and it unifies the description of electromagnetism, weak interactions and strong interactions. All of this using the **language** of **group theory** and **gauge invariance**.
+After several decades **non-abelian gauge theory**, it was finally possible in a theory that was developed by **Yang** & **Mills** in **1954** to provide a **unified framework** that describes all the fundamental forces of nature, with the exception of gravity. This is what is called the standard model in the particle physics and it unifies the description of electromagnetism, weak interactions and strong interactions. All of this using the **language** of **group theory** and **gauge invariance**.
 
 > Unification of electromagnetic and weak forces (modelled with the groups U(1) × SU(2)) and the strong force (based on the group SU(3)) **C. N. Yang** & **R. L. Mills 1954**
 
@@ -114,4 +114,116 @@ After several decades **non-abelian gauge theory**, it was finally possible in a
 **Interesting resource on the topic of symmetry in physics** (Roger Penrose)
 [Fearful Symmetry: The Search for Beauty in Modern Physics](https://www.amazon.com/Fearful-Symmetry-Physics-Princeton-Science-ebook/dp/B0147EPTRI)
 If you were to distill these thousand plus pages into one word, it would be **symmetry**. He devotes a lot of time to **group theory** to the concepts of **symmetry** and how they are fundamental in physics.
+
+
+# What does the historical background all have to do with Deep Learning?
+
+The current state of affairs in the field of Deep Learning reminds a lot of the situation of **geometry** in the **19th** century. In the past decade Deep Learning has brought a true revolution in the data science world. It made **possible** many tasks that previously maybe **20 years ago** would be considered nearly **science fiction**. Whether it's **computer vision** that powers **autonomous driving**, **speech recognition** behind every single mobile phone today, **natural language translation** sometimes **trained without supervision**, **playing** intelligent **games** like **go** or doing **science** tasks as solving the **protein folding** problem.
+
+So, on the other hand we **nowadays** have this **zoo** of different **neuronal network architectures** for different types of **data** but very **few unifying principles**. As a consequence it's **difficult** to **understand** the **relations** between different methods and this **inevitably leads** to the **reinvention** and **rebranding** of the same concepts.
+
+![20th Century Zoo of Neuronal Network Architectures](./img/introduction/zoo_architectures.png)
+
+The **same ideas** are presented and published several times in **different communities** under **different names**. Sometimes it also brings unpleasant and bitter fights over **priority**, so this is really an **unhealthy** situation.
+
+
+
+## The Erlangen Programme of ML: Geometric Deep Learning
+
+We need some form of **unification** and we want to do it in the spirit of the **erlangen programme**.
+This is what we call **Geometric Deep Learning** and it serves **2 purposes**:
+
+1. **Pedagogical perspective**: It provides a **common** mathematical **framework** to study the most successful neuronal architectures that are currently used ubiquitously in the field of Deep Learning or Deep **representation** Learning.
+2. **Constructive procedure to incorporate prior knowledge into neural networks**: Build **future** architectures in a **principled** way.
+
+Question: **What will be after Deep Learning** or maybe beyond learning by **backpropagation**?
+Answer: The hope is that these principles will **outlast** their particular implementations.
+
+Question: When did this theory born?
+
+![First appearance](./img/introduction/beyond_euclidian_data.png)
+
+Answer: The term [Geometric Deep Learning](https://geometricdeeplearning.com) was popularised in a **2017** paper in the **IEEE** _Single Processing_ magazine. Co-Authorised by [Michael M. Bronstein](https://twitter.com/mmbronstein?lang=en) and [Joan Bruna](https://arxiv.org/search/cs?searchtype=author&query=Bruna%2C+J).
+
+Most recently the theory has been extended, to the length of approximately a **book**, and refined with the help of new contributors such as [Taco Cohen](https://tacocohen.wordpress.com) and [Petar Veličković](https://petar-v.com). The new paper is available **online**.
+
+# Motivation
+
+ **Where** actually **symmetry** and **how** exactly it is **manifested** in Machine Learning and **why** it is important?
+
+If we consider the **simplest** setting of machine learning, **supervised learning**, this is essentially a **glorified function estimation** problem. 
+**Problem description**: We're given some **unknown** function and we **observe** its **output** on what is called a **training set**. What we try to **do** is to **find** a **function** that **fits** well the **training data** while keeping **generalization** properties.
+This function **comes** from some **class of functions**, some **hypothesis class**, and this way we try to **predict** outputs on previously **unseen inputs**, the so called the **test set**.
+
+## Learn to discriminate dogs from cats via Supervised Learning
+
+The typical example that is given is **image classification** where you have a **set of dog** and **cat set** images and it's a **binary classification**. This means that given any possible input image, assumed that it contains a cat or a dog, the function would classify them into class of cats or dogs.
+
+![Supervised ML = Function Approximation](./img/introduction/supervised_learning.png)
+
+Question: **What happened over the past decade?**
+
+**2 trends** coincided:
+
+1. **Availability of large and high quality data sets**: For example data sets such as [Imagenet](https://www.image-net.org) that has millions of **labeled** images.
+1. **Sufficient computational resources**: The continuous improvements and development of **GPUs**, that were thought and originated as **g**raphics hardware, are especially well suitable for general purpose computations that you encounter in deep learning and AI in general (**array programming**).
+
+These two trends have led to the design of **rich function classes** that have the capacity, at least in **theory**, to **interpolate** such large datasets.
+
+
+## Perceptron
+
+**Neural Networks are a suitable choice to represent functions**.
+
+![Perceptrons, Rosenblatt 1957](./img/introduction/perceptron.png)
+
+Neural networks of course are **not new at all**. They are at least **70 years** old, so the first works are from the **50s** and  with a very **simple** choice of **architecture**, the so called **perceptron**. This type of architecture is probably the earliest and **simplest** neural network.
+
+
+## Universal Approximation
+
+We can show that if we **connect** just **2 layers** of such networks, **perceptron**, what is called **multi-layer perceptron** or a perceptron with one **hidden layer**, it produces a **dense** class of functions.
+In other words, we can **approximate any continuous function** or even broader class of functions to **any** desired **accuracy**. We call this **property** universal approximation.
+It is a very **general** architecture than can **represent** practically **anything**.
+
+### Kolmogorov–Arnold representation theorem: Model as a form of Artificial Intelligence
+
+At the second [International Congress of Mathematicians](http://en.wikipedia.org/wiki/International_Congress_of_Mathematicians) in Paris 1900, [Hilbert](http://en.wikipedia.org/wiki/David_Hilbert) presented ten of his [23 problems](http://en.wikipedia.org/wiki/Hilbert's_problems), including the [13th problem](http://en.wikipedia.org/wiki/Hilbert's_thirteenth_problem) about equations of degree seven. He considered the following equation,
+$$
+x7+ax3+bx2+cx+1=0,
+$$
+and asked whether its solution $x(a,b,c)$, seen as a function of the three parameters a, b and c, can be written as the **composition** of functions of only two variables.
+
+**Hilbert's 13th problem statement**: _Solve 7th degree equation using algebraic (variant: continuous) functions  of two parameters_.
+
+**Kolmogorov-Arnold representation theorem**:
+The model assumes that an output parameter $z$ depends on vector input parameters $x$. Kolmogorov-Arnold formal model requires the continuity, but we relax this condition and assume that small increments in the inputs are causing small differences in the output.
+$$
+z = F(x_1,x_2,...,x_n) \\
+z \: + \Delta z =  F(x_1 \: + \Delta x_1,x_2 \: + \Delta x_2,...,x_n \: + \Delta x_n \\
+z = \sum_{k=1}^{2n+1}\Phi_{k}\Bigg[ \sum_{j=1}^{n} f_{k,j}(x_{j})\Bigg]
+$$
+
+The model itself is a set of unspecified functions.
+
+Let $f \: [0,1]^{d} \mapsto \mathbb{R}$ be continuous. There exists **univariate** continuous functions $g_{q}, \Psi_{p,q}$, such that $f(x_{1},...,x_{d}) = \sum_{q=0}^{2d}g_{q} \Big ( \Psi_{p,q}(x_{p})\Big)$ 
+Nowadays there are better representations than the one exposed here. There are **3** main reasons why there are no explicit formulas for $g_{q}, \Psi_{p,q}$.
+
+1. The proofs of these theorems are **non-constructive**.
+2. The **outer function**, $g_{q}$ highly depends on $f$ so we can't just choose one.
+3. The **inner function**  $\Psi_{p,q}$ is continuous.
+
+***NOTE***: THE THEOREM ONLY STATES EXISTENTS OF THESE FUNCTIONS.
+
+This form has **similarities** with a **2-layered** neural network but this is highly debated.
+
+**e.g:** The function,
+$$
+f_{1}(x_1,x_2) = x_{1}^{2} \: + x_{2}
+$$
+can be decomposed as in the theorem since it's a summation of continuous univariate functions. Let
+$$
+g_{1}(x) = x \:, \Psi_{1,1}(x_1) = x_{1}^2 \:, \Psi_{2,1}(x_2) = x_2
+$$
+and for all the other functions to be set with $g_q = \Psi_{p,q} =0$.
 
