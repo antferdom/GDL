@@ -196,7 +196,7 @@ At the second [International Congress of Mathematicians](http://en.wikipedia.org
 $$
 x^7+ax^3+bx^2+cx+1=0,
 $$
-and asked whether its solution $x(a,b,c)$, seen as a function of the three parameters a, b and c, can be written as the **composition** of functions of only two variables.
+and asked whether its solution $$x(a,b,c)$$, seen as a function of the three parameters a, b and c, can be written as the **composition** of functions of only two variables.
 
 **Hilbert's 13th problem statement**: _Solve 7th degree equation using algebraic (variant: continuous) functions  of two parameters_.
 
@@ -240,7 +240,7 @@ Even if we pick a very nice class of functions of the so called **lipschitz cont
 
 
 
-![Lipschitz functions: superposition of gaussian blobs put in quadrants of a unit cube](./img/introduction/ex_lipschitz_continuous functions.png)
+![Lipschitz functions: superposition of gaussian blobs put in quadrants of a unit cube](./img/introduction/ex_lipschitz_continuous_functions.png)
 
 What we will find out very quickly that as the **dimensionality** of this **space**, the unit cube, grows then the **number of samples** grow **exponentially**. This phenomenon is colloquially known as the curse of dimensionality. Modern machine learning methods need to operate with data not in two or three dimensions but in **thousands** or even **millions** dimensions. **Images** can serve as an illustrative example of very high dimensional input space.
 
@@ -249,3 +249,87 @@ What we will find out very quickly that as the **dimensionality** of this **spac
 The curse of dimensionality is simply an inevitable God's curse accompanying every machine learning problem. Therefore the previous exposed naive approach to learning is completely impossible to achieve.
 
 This is probably best seen in **computer vision** applications like **image classification**. Since images are well known as high dimensional input space, even for example tiny images from [MNIST data set](http://yann.lecun.com/exdb/mnist/), they are almost thousand dimension. But if we look deeper at this problem, intuitively we see that there is a lot of **structure**.
+
+![MNIST data set example: Number three](./img/introduction/image_three.png)
+
+If we treat the input image as a **d-dimensional vector**, to for example the perceptron, we would **destroy** the **input structure**. In this case we are referring to the **local spatial connectivity** between pixels in the image. As a result now if we take the image and **shift** it by just **one pixel**, this vectored input will be very **different** and the neuronal network will need to be shown **a lot of examples** (_data augmentation_) in order to **learn** that **shifted** inputs must be classified in the same way as if they hadn't been applied any **spatial transformation**.
+**Conclusion**: MUST LEARN SHIFT INVARIANCE FROM DATA
+
+![MNIST data set example: Number three shifted by one single pixel](./img/introduction/three_shift.png)
+
+Question: **How do we learn spatial transformations applied to the inputs?**
+Answer: Using a standard practice called **data augmentation**. If we don't know how to model specific environments or certain way of telling that the shifted versions of these digits **must** be the **same**, we just **add** such examples to the **training set** in order to **increase** the diversity of known input space. This can be enormously **wasteful**.
+
+
+
+## Learning Structure
+
+Question: **If there exists structure and shared information in the input space, how can we exploit that to achieve better learning and understanding?**
+
+![Hubel, Wiesel 1962. LeCun et al. 1989](./img/introduction/CNN_invention.png)
+
+Answer: In the field of **computer vision**, the solution came from a classic work in neuroscience. In particular after the winning work by **Hubel** and **Wiesel** who studied the **organization of the visual cortex**. They showed that brain **neurons** are organised into what they called **local receptive field**. This was enough inspiration to influence a new type of **architectures** with **local shared weights**. Remarkable citation to the **neocognitron** of Fukushima (1980). In his paper from 1980 were already contained many elements of modern deep learning such as for example the **activation function** that he used was already a **ReLU** (**Re**ctified **L**inear **U**nit). This culminated in **C**onvolutional **N**eural **N**etworks (**CNN**) by the pioneering work of **Yann LeCun** (1989). The concept of **weight sharing** across the image effectively partially solved the cursed of dimensionality.
+
+
+
+## Beyond Grids
+
+![Graph representation of a caffeine molecule](./img/introduction/cafeine_molecule.png)
+
+Chemical compounds like this caffeine **molecule** can be represented using a **graph**, where the **nodes** act as the atoms and **edges** as chemical compounds. If we were to apply neural network to this input, for example to **predict** some chemical properties like its binding energy or some other property, we can again **parse** it into a **vector** and give it to the neural network as its input. But now we can see that we can **rearrange** the **nodes** in any way basically. We can effectively **permute** the nodes of our graph because in graphs and like images we don't have a particular preferential or default **order** scheme for the nodes.
+
+Molecular graphs appear to be just one example of data with this **irregular non-euclidean structure** on which we would like to apply deep learning. Another prominent examples are **social networks**. They are tremendously gigantic with hundreds of millions of nodes and billions of edges among their nodes. We can also find different kinds of networks in **biology** such as **interaction networks**, **manifolds** in computer graphics and many other examples of data which could benefit from a more structured and principled mechanism of learning.
+
+## Symmetry Priors
+Fortunately we do have **additional structure** that comes from the **geometry** of the input **signal**. We call this structure **symmetry prior**. It's a general and powerful principle that gives us hope dealing with the curse of dimensionality.
+In the our previous example of the image classification, the input image is **not** just a **d-dimensional** vector, it's a **signal** defined on some **geometric domain**, denote here by $$\Omega$$. In this example the input space is defined by a **two-dimensional grid** and we denote the **space of signals** by $$\mathcal{X}(\Omega)$$. 
+
+![](./img/introduction/symmetry_prior_1.png)
+
+The structure of the domain is captured by a **symmetry group** that is denoted by $$\boldsymbol{\mathfrak{G}}$$, in this case it's the group of **two-dimensional translations** that acts on the points of $$\Omega$$. 
+For now, and without any further detailed explanation about groups, we need to understand that we have the **domain** and we have a **group** that **acts** on it, so it describes its **structure (symmetry)**. The action of the group on points on the domain is manifested on signals defined on this domain to what is called the **group representation**, denoted by $$\rho$$.
+In the case of this example, pursuing an effort of further clarification, the representation is a **matrix** that acts on the dimensional vectors. It's a $$d \times d$$ matrix that in this example is simply a **translation** or **shift operator**.
+
+
+![](./img/introduction/symmetry_prior_2.png)
+
+### Invariant functions: Image Classification
+
+The geometric structure of the domain that underlies the input signal **affects** the **functions** that we define on the **signals** and try to **learn**. Let the function here be denoted by $$f$$. We can then have functions that are **unaffected** by the **action** of the group, what we call **invariant functions**. 
+
+For example, in the image classification problem **no** matter where for example the **cat** may be **located** in the image, we still want to say that it's a cat what the image contains. This is an example of **shift invariance**.
+
+![Invariant functions: Shift invariance](./img/introduction/invariant_functions.png)
+
+### Equivariant functions: Image Segmentation
+
+We can also have cases where the function has the **same** input and output **structure**, as it occurs in the **image segmentation** problems, the output will be a pixel wise label mask. In these cases we want the **output** to be **transformed** in exactly the same way as the **input**. We name this class of functions as **equivariant functions**.
+The following example shows an example of shift equivariance in the scenario of an image segmentation problem.
+
+![Equivariant functions: Shift equivariance](./img/introduction/equivariant_functions.png)
+
+
+
+### Scale Separation Prior
+
+In some cases we can construct a **multi-scale hierarchy** of domains. For example, continuing with the image classification example of the number three, **coarsing** or stretching the **grid** we now have another version of the grid denoted by $$\Omega'$$. This stretching assimilates **nearby** points on the domain and produces also a hierarchy of **signals spaces** that are related by what is called the **coarse graining operator**, denoted by $$P$$. On this coarse grid we can define a **new coarse scale function**, denoted by $$f'$$, and we can say that our function is **locally stable** if it can be **approximated** as the **composition** of this corresponding operation and the coarse scale function. 
+
+![Scale Separation Prior](./img/introduction/scale_prior.png)
+
+While the original function might **depend** on **long range interactions** on the domain, these **spatial locally stable functions** can possible separate the interaction across **scales**. In our discussed example on the image classification, this corresponds to **applying** a classifier at a **lower resolution** image.
+
+
+
+## Geometric Deep Learning Blueprint
+
+These exposed principles can probably **recognize** the majority of popular neural **architectures**. We can apply a **sequence of equivariant** layers that **preserves** the **structure** of the domain, possible followed by an **invariant global polling** layer that **aggregates** everything into a **single** output. In some cases we might also need to have a **hierarchy of domains** by some **coarse procedure** that takes the form of **local polling**.
+
+![Geometric Deep Learning general framework](./img/introduction/gdl_blueprint.png)
+
+As this framework acts broadly across the structure of the input domain, it can be applied to any kind of geometric data.
+
+![The “5G” of Geometric Deep Learning](./img/introduction/5G.png)
+
+The implementation of these principles, in the form of inductive biases, leads to some of the most **popular** architectures that exist today in deep representation learning (**CNN**, **G**raph **N**eural **N**etworks, **Transformers**,**L**ong **S**hort **T**erm **M**emory). 
+
+**Conclusion**: Every popular neural network architecture can be **derived** from fundamental principles of **symmetry**, same way as all physics can be derived from respective symmetries. We may refer to this as the **deep learning-physics symmetry correspondence**.
