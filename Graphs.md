@@ -26,6 +26,17 @@ This brings us with the following types of graphs according to their **ordering*
 We can also **attach** some **features** to the **nodes** that will be modeled as **d-dimensional** vectors. For example, in a social network graph, each node might contain information relative to the user of the node such as age, height, sex...
 For the sake of simplicity we are going to ignore possible features linked to edges, but they could exist.
 
+# History of Graph Neural Networks
+
+|                      |                                  |                                          |                              |                               |
+| :------------------: | :------------------------------: | :--------------------------------------: | :--------------------------: | :---------------------------: |
+| **Machine Learners** |       Labeling RAAM (1994)       | Backpropagation through structure (1996) | Graph Neural Networks (2008) |       Gated GNN (2015)        |
+| **Graph Theorists**  | Weisfeiler-Lehman kernels (2009) |                  k-GNN                   |          GIN (2019)          |     Provably powerful GNN     |
+|     **Chemists**     |          ChemNet (1995)          |        Neural descriptors (1997)         |  Molecular graph net (2005)  | Molecular fingerprints (2017) |
+
+
+
+
 # Key Structural Properties of Graphs
 
 The key structure of a graph or a set is that it's **unordered**. We don't have a canonical way to order its nodes. Thus when we number the nodes of an graph, for example the above one, we are partially **cheating**.
@@ -35,7 +46,25 @@ The adjacency matrix for a graph with $$n$$ vertices is an $$n \times n$$ matrix
 
 The representation of the adjacency matrix depends on the selected ordering to the set of nodes.
 
-![Example of a graph](./img/graphs/adj_matrix.png)
+![Adjacency Matrix](./img/graphs/adj_matrix.png)
+
+**Conclusion**: If we number the nodes differently implies that the **rows** of the **feature matrix** and corresponding rows and columns of the adjacency matrix will be **permuted** accordingly. We denote this **permutation matrix** by $$P$$, and $$P$$ is an **elemen** of the **permutation group** of $$n$$ elements. The permuation group contains $$n!$$ elements.
+We can think of $$P$$ as a **representation** of the **permutation group**.
+
+***NOTE***: The representation differs with respect to the type of the object. The permutation group acts differently on **vectors** and **matrices**.
+
+## Invariant Graph Functions: Permutation-invariant
+
+**Strong precondition needed**: In order to implement a **function** acting on a **graph** that produces a **single output** for the **entire** graph, it's **mandatory** to assert that this single value generated output is **unaffected** by the chosen **ordering** of the **input nodes**. Independently of the ordering of the nodes, the computed output for the same graph must be always the same, although the nodes were or not rearranged.
+
+![Invariant Graph Functions: Permutation-invariant](./img/graphs/permutation_invariant.png)
+
+
+
+## Equivariant Graph Functions
+
+In this scenario it's convenient that the output of the function changes harmoniously to the fluctuations in the input with the reordering of the nodes. 
+
 
 # References
 
