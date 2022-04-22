@@ -34,7 +34,9 @@ For the sake of simplicity we are going to ignore possible features linked to ed
 | **Graph Theorists**  | Weisfeiler-Lehman kernels (2009) |                  k-GNN                   |          GIN (2019)          |     Provably powerful GNN     |
 |     **Chemists**     |          ChemNet (1995)          |        Neural descriptors (1997)         |  Molecular graph net (2005)  | Molecular fingerprints (2017) |
 
+The term **graph neural networks** first appeared in a series of papers by the group of research conformed by **M. Gore** and **F. Scarselli**. But graph theory research argue that graph neural networks are just a **rebranding** of a graph **isomorphism test** called the **Weisfeiler-Lehman test** (1968). This test address a classical graph theory problem that tries to determine if **2** graphs are **isomorphic** or have the **same** connectivity up to **reordering** the nodes.
 
+***NOTE***: Nowadays there isn't any algorithm that can compute and solve the Weisfeiler-Lehman Test in polynomial time. Only solvable in polynomial time up to graphs with **9** nodes. Indeed this problem was proved to have a computational solution in quasi-polynomial 
 
 
 # Key Structural Properties of Graphs
@@ -69,3 +71,5 @@ In this scenario it's convenient that the output of the function changes harmoni
 # References
 
 1. [nLab: Graph](https://ncatlab.org/nlab/show/graph)
+1. [Geometric Deep Learning: Grids, Groups, Graphs, Geodesics, and Gauges](https://arxiv.org/abs/2104.13478)
+2. [Michael Bronstein's Youtube channel](https://www.youtube.com/c/MichaelBronsteinGDL/videos)
