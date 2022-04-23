@@ -1,6 +1,8 @@
 # Contributing
 
-[**G**eometric **D**eep **L**earning](https://github.com/antferdom/GDL)
+{% embed url="https://github.com/antferdom/GDL" %}
+Github repo hosting the project
+{% endembed %}
 
 HI everyone!
 If you're interested in joining the community to build a better understanding of the subjacent theoretical principles governing Deep Learning studying its symmetries , there are lots of ways of contributing; big and small:
