@@ -94,7 +94,7 @@ Answer: For each **node** in the graph we look at the **neighbors** and take the
 
 ![multiset of neighbour features](./img/graphs/neighbourhood_features.png)
 
-**NOTE**: In this example, we have the **blue** feature **repeated** twice. Two nodes have the same feature vector. In this scenario we dealing with a **multiset**. (_See section_ [5.1 multiset](#5.1-Multiset))
+**NOTE**: In this example, we have the **blue** feature **repeated** twice. Two nodes have the same feature vector. In this scenario we dealing with a **multiset**. (_See section_ [5.1 Multiset](#5.1-multiset))
 
 Now we try to aggregate these features together with the feature vector of the node itself. It **must** be done in a **permutation invariant** way because we don't have a canonical **ordering** of the neighbors on a graph.
 
