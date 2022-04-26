@@ -109,8 +109,10 @@ If we apply this $$\Phi$$ local function at every node of the graph and **stack*
 This local aggregation function on GNN typically looks as follows:
 
 - $$\textcolor{Cyan}{permutation \: invariant \: aggregation \: operator, \: e.g. \: sum}$$: It is often **sum** or **maximal**.
-- $$\color{Orange}{learnable \:functions} \: \Psi$$: This function transforms the neighbors features. 
-- $$\textcolor{DarkOrchid}{new \: feature \: of \: node \: i} \: \phi $$: Updates the features of node $$i$$ using the aggregated features of the neighbors. It's a **non linear** function that depends on both **feature vectors** of node $$i$$ and $$j$$. Its **output** can be seen as a **message** that is sent from node $$j$$ to update node $$i$$. That's why this architecture is also called **message passing graph neural networks**.
+- $$\color{Orange}{learnable \:functions} \: \Psi$$: 
+	1. $$\psi$$: This function transforms the neighbors features. It's a **non linear** function that depends on both **feature vectors** of node $$i$$ and $$j$$. Its **output** can be seen as a **message** that is sent from node $$j$$ to update node $$i$$. That's why this architecture is also called **message passing graph neural networks**.
+	2. $$\phi$$: Updates the features of node $$i$$ using the aggregated features of the neighbors.
+- $$\textcolor{DarkOrchid}{new \: feature \: of \: node \: i}$$: $$f : x_i \to x'_{i}$$
 
 
 ![Gilmer et al. 2017 (MPNN); Battaglia et al 2018; Wang et al. 2018](./img/graphs/aggregation_gnn.png)
