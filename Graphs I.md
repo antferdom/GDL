@@ -94,7 +94,7 @@ Answer: For each **node** in the graph we look at the **neighbors** and take the
 
 ![multiset of neighbour features](./img/graphs/neighbourhood_features.png)
 
-**NOTE**: In this example, we have the **blue** feature **repeated** twice. Two nodes have the same feature vector. In this scenario we dealing with a **multiset**. (_See section [5.1 Multiset](#5.1-Multiset)_)
+**NOTE**: In this example, we have the **blue** feature **repeated** twice. Two nodes have the same feature vector. In this scenario we dealing with a **multiset**. (_See section_ [5.1 Multiset](#5.1-Multiset))
 
 Now we try to aggregate these features together with the feature vector of the node itself. It **must** be done in a **permutation invariant** way because we don't have a canonical **ordering** of the neighbors on a graph.
 
@@ -108,7 +108,7 @@ If we apply this $$\Phi$$ local function at every node of the graph and **stack*
 
 This local aggregation function on GNN typically looks as follows:
 
-- $$\textcolor[rgb]{0.1,0.81,1}{permutation \: invariant \: aggregation \: operator, \: e.g. \: sum}$$: It is often **sum** or **maximal**.
+- $$\textcolor{Cyan}{permutation \: invariant \: aggregation \: operator, \: e.g. \: sum}$$: It is often **sum** or **maximal**.
 - $$\color{YellowOrange}{learnable \:functions} \: \Psi$$: This function transforms the neighbors features. 
 - $$\textcolor{DarkOrchid}{new \: feature \: of \: node \: i} \: \phi $$: Updates the features of node $$i$$ using the aggregated features of the neighbors. It's a **non linear** function that depends on both **feature vectors** of node $$i$$ and $$j$$. Its **output** can be seen as a **message** that is sent from node $$j$$ to update node $$i$$. That's why this architecture is also called **message passing graph neural networks**.
 
