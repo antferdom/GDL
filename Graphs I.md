@@ -108,7 +108,7 @@ If we apply this $$\Phi$$ local function at every node of the graph and **stack*
 
 This local aggregation function on GNN typically looks as follows:
 
-- $$\color{ProcessBlue}{permutation \: invariant \: aggregation \: operator, \: e.g. \: sum}$$: It is often **sum** or **maximal**.
+- $$\color[rgb]{0.1,0.81,1}{permutation \: invariant \: aggregation \: operator, \: e.g. \: sum}$$: It is often **sum** or **maximal**.
 - $$\color{YellowOrange}{learnable \:functions} \: \Psi$$: This function transforms the neighbors features. 
 - $$\textcolor{DarkOrchid}{new \: feature \: of \: node \: i} \: \phi $$: Updates the features of node $$i$$ using the aggregated features of the neighbors. It's a **non linear** function that depends on both **feature vectors** of node $$i$$ and $$j$$. Its **output** can be seen as a **message** that is sent from node $$j$$ to update node $$i$$. That's why this architecture is also called **message passing graph neural networks**.
 
