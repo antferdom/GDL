@@ -77,11 +77,14 @@ _e.g._:
 2. A significant part of the conclusions we achieve from sets will naturally carry over to graphs.
 3. Even if we restrict ourselves completely to processing data on sets following this kind of structure, it would still a relevant area. _e.g_: **point clouds** data
 
-### Learning On Sets: Setup
+### Learning On Sets
+
+#### Setup
 
 Assume our graph **has no edges**
 $$
-\textcolor{Red}{\Omega} = \mathcal{V}
+\textcolor{Red}{\Omega} = \mathcal{V} \\
+E = \empty
 $$
 , the set of nodes.
 
@@ -105,7 +108,7 @@ Given an unordered set of **five nodes** and their features being $$\{ x_1, x_2,
 $$
 f(\{ x_1, x_2, x_3, x_4, x_5\}) = y = f(\{x_2, x_5, x_4, x_3, x_1\})
 $$
-**Conclusion**: Even if we completely perturb the order in which we give the set elements to the function $$f$$ we expect the output $$y$$ to be unaffected. In the framework of **GDL** this corresponds to using the **n-element Permutation group** $$\Sigma_{n}$$ as our **symmetry group** $$\boldsymbol{\mathfrak{G}}$$. The different group elements within this symmetry group will be the **permutations**
+**Conclusion**: Even if we completely perturb the order in which we give the set elements to the function $$f$$ we expect the output $$y$$ to be unaffected. In the <u>framework of **GDL**</u> this corresponds to using the **n-element Permutation group** $$\Sigma_{n}$$ as our **symmetry group** $$\boldsymbol{\mathfrak{G}}$$. The different group elements within this symmetry group will be the **permutations**
 $$
 \boldsymbol{\mathfrak{g}} \in \boldsymbol{\mathfrak{G}}
 $$
@@ -196,4 +199,78 @@ f(\boldsymbol{PX}) = f(\boldsymbol{X})
 $$
 This property is desirable for set neural networks when we **assume** that our domain is **unordered** sets. We then say that the set neural network $$f(\boldsymbol{X})$$ is permutation invariant if and only if independently of the chosen $$\boldsymbol{X}$$ matrix chosen, the result stills **unchanged**.
 
-We can compare this with our requirement in the geometric deep learning framework for $$\boldsymbol{\mathfrak{G}}$$-**invariant layer**, and specifically in this case, our $$f$$ corresponds to the $$\boldsymbol{\mathfrak{G}}$$-**invariant layer** $$A$$, and the group action $$\boldsymbol{\mathfrak{g}}$$ corresponds to applying a permutation matrix. Therefore we have a **one-to-one** correspondence with the framework. 
+We can compare this with our requirement in the <u>geometric deep learning framework</u> for $$\boldsymbol{\mathfrak{G}}$$-**invariant layer**, and specifically in this case, our $$f$$ corresponds to the $$\boldsymbol{\mathfrak{G}}$$-**invariant layer** $$A$$, and the group action $$\boldsymbol{\mathfrak{g}}$$ corresponds to applying a permutation matrix. Therefore we have a **one-to-one** correspondence with the framework. 
+
+#### Deep Sets model
+
+It's general procedure to perform representation learning on sets in a way that's permutation invariant. It applies a **point-wise** neural network $$\psi$$ on **every** single **node** in **isolation**. Then in order to guarantee permutation invariance, we **sum** up the features of **all** the nodes in the set to finally **transform** that with neural network, denoted by $$\phi$$.
+$$
+f(\boldsymbol{X}) = \textcolor{Orange}{\phi \Bigg (} 
+\Sigma_{i \in \mathcal{V}} 
+\textcolor{Green}{\psi(} x_i \textcolor{Green}{)}
+\textcolor{Orange}{\Bigg )}
+$$
+In this expression $$\textcolor{Orange}{\phi}$$ and $$\textcolor{Green}{\psi}$$ are **learnable** functions.
+
+The **sum** aggregation is responsible to achieve the permutation invariance because independently of how we permute the rows of a matrix, its sum will be always be the same. Even though we can use other types of **aggregators** such as **maximization** or **average**, which indeed keep achieving permutation invariance. Thus we can **generalize** the previous expression to be
+$$
+f(\boldsymbol{X}) = \textcolor{Orange}{\phi \Bigg (} 
+\bigoplus_{i \in \mathcal{V}} 
+\textcolor{Green}{\psi(} x_i \textcolor{Green}{)}
+\textcolor{Orange}{\Bigg )}
+$$
+Since this moment, whenever we see the generic aggregator operator, denoted by $$\bigoplus$$, we must conceive **anything** which is **permutation invariant** over its arguments.
+
+### Permutation equivariance
+
+Permutation invariant models are good for **set-level** outputs. This means that it's a desirable property to have when we want outputs on the level of the entire set.
+
+Question: **What if we would like answers to node level?**
+
+Answer: In order to preserve and identify **node outputs** we can't take use of the permutation invariant summation. Here **summation** would potentially **destroy** node-level outputs or at least make them really hard to recover.
+
+Now rather than restrict the generated output to be resistant to permutation, we want to let the permutation produce a **new** and different **result** but while making this phenomena **predictable**. Therefore we want a function that **doesn't change** the node **order** when applied. This concludes that it doesn't matter **when** we apply the **permutation** to the set.
+$$
+\boldsymbol{F}(\boldsymbol{PX}) = \boldsymbol{PF}(\boldsymbol{X})
+$$
+***NOTE***: Trying to be consistent with the linear algebra universe and its notation, the function is capitalized and in **bold**, because it returns a **matrix** as **output**.
+
+<u>Compare with **GDL** framework:</u>
+**Linear** $$\boldsymbol{\mathfrak{G}}$$-**equivariant layer** $$B: \mathcal{X}(\Omega,\mathcal{C}) \to \mathcal{X}(\Omega', \mathcal{C'})$$, satisfying linearity and resistance to group action in an equivariant way. No matter which symmetry group transformation $$\boldsymbol{\mathfrak{g}}$$ we take and featurization function $$x$$.
+
+### Locality
+
+Strict resistance to symmetries is not the only property we want. It's desirable that our neural networks's **predictions** not immensely **collapse** under the effect of **non-perfect** symmetry transformation.
+
+Data is not usually transformed using a symmetry element but rather **noise** it's acquired and added in the transformations, generating **distortions**. Then we would want the signal to be **stable** under slight **deformations** of the domain.
+
+![](./img/graphs/II/locality_distortion.png)
+
+If we want to achieve this level of resistance under distortions, it's crucial to **compose local** operations to model **large scales** ones, as local operations **won't globally** propagate **errors**. This implies that we would want graph neural networks (GNN) to have **layers** which behave **locally** with respect to the structure of the domain.
+
+Question: **What does it mean for an equivariant layer on sets to be local?**
+
+Answer: One way we can enforce **locality** in equivariant set functions is through a **shared** function $$\psi$$ applied to every **node** in **isolation**:
+$$
+\boldsymbol{h}_{i} = \psi(\boldsymbol{x}_{i})
+$$
+
+Stacking $$\boldsymbol{h}_{i}$$ in the same way we stacked the original $$\boldsymbol{x}_{i}$$, this yields an new matrix, denoted by $$\boldsymbol{H}$$, which is considered as the output of our function $$\boldsymbol{F}$$.
+$$
+\boldsymbol{H} = \boldsymbol{F}(\boldsymbol{X})
+$$
+
+<u>Compare with **GDL** framework:</u>
+
+(stacking) $$\textcolor{Cyan}{equivariant}$$ functions, potentially with an $$\textcolor{Orange}{invariant}$$ tail yields any useful set neural nets.
+$$
+f(\boldsymbol{X}) = \textcolor{Orange}{\phi \Bigg (} 
+\bigoplus_{i \in \mathcal{V}} 
+\textcolor{Green}{\psi(} x_i \textcolor{Green}{)}
+\textcolor{Orange}{\Bigg )}
+$$
+This expression is quite close to what our framework would have construct. There is a point-wise function which corresponds precisely to a local equivariant function, denoted by $$\textcolor{Green}{\psi}$$, over **nodes**, and then if needed to generate predictions at **set-level**, we can add a global pooling layer at the very end. In the expression this is denoted by the generic aggregator operator $$\textcolor{Orange}{\phi}$$
+
+**Conclusion**: This is probably the best and most general form of a neural network that operates on sets, without assuming or inferring additional structure or relations (**edges**).
+
+### Learning On Graphs
