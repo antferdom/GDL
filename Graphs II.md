@@ -115,7 +115,24 @@ The permutation will change the order in which we see the elements in this set a
 
 #### Idea
 
-A permutation on a set $$S$$ is equivalently
+It's useful to think about operators that **change** the node order.
+
+_e.g_: $$(1,2,3,4) \rightarrow (2,4,1,3)$$
+
+This example permutation maps the following actions over the set:
+
+- $$y_1 \leftarrow x_2$$
+- $$y_2 \leftarrow x_4$$
+- $$y_3 \leftarrow x_1$$
+- $$y_4 \leftarrow x_3$$
+
+Concretised in the form of a unique expression as:
+$$
+\boldsymbol{\mathfrak{g}} = (\array{1 \mapsto 3 & 2 \mapsto 1 & 3 \mapsto 4 & 4 \mapsto})
+$$
+
+
+Formally, a permutation on a set $$S$$ is equivalently
 
 1. a [bijection](https://ncatlab.org/nlab/show/bijection), **one-to-one correspondence**, from $$S$$ to itself,
 
@@ -132,3 +149,40 @@ A **linear order** on a set $$S$$ is a binary **relation** $$<$$ with the follow
 3. an element in the [symmetric group](https://ncatlab.org/nlab/show/symmetric+group) of $$\boldsymbol{\mathfrak{G}}$$.
 
 As automorphisms $$\sigma: S \to S$$ in set, the permutations of $$X$$ naturally form a **group** under **composition**, called the **symmetric group** (or **permutation group**) on $$S$$. This group may be denoted by $$S_{X}, \Sigma_{X}, X!$$, but we are going to denote it by $$\boldsymbol{\mathfrak{G}}$$. When $$S$$ is an finite set $$(n) = \{ 1,...,n\}$$, then its symmetric group is a **finite group** of [cardinality](https://ncatlab.org/nlab/show/cardinality) $$n!$$. This is typically written as $$\Sigma_n$$.
+
+Within **linear algebra**, each permutation defines a $$|\mathcal{V}| \times |\mathcal{V}|$$ **matrix** ($$n \times n$$).
+
+Such matrices, called **permutation matrices** (group action $$\rho(\boldsymbol{\mathfrak{g}})$$), have **zeros** almost everywhere and have strictly just a **one** in every **row** and **column**. The positions of these ones correspond to the order of the nodes in the permutation.
+
+_e.g_: For our initial example
+$$
+\boldsymbol{X}=
+\begin{pmatrix}
+\boldsymbol{x_1} \\
+\boldsymbol{x_2} \\
+\boldsymbol{x_3} \\
+\boldsymbol{x_4} \\
+\end{pmatrix}
+$$
+
+
+the permutation matrix looks as follows:
+$$
+\boldsymbol{P_{(2,4,1,3)}} =
+\begin{pmatrix}
+0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1\\
+1 & 0 & 0 & 0\\
+0 & 0 & 1 & 0\\
+\end{pmatrix}
+$$
+Its effect when **left-multiplied** is to permute rows of $$\boldsymbol{X}$$ as follows
+$$
+\boldsymbol{P}\boldsymbol{X} = \begin{pmatrix}
+\boldsymbol{x_2} \\
+\boldsymbol{x_4} \\
+\boldsymbol{x_1} \\
+\boldsymbol{x_3} \\
+\end{pmatrix}
+$$
+
