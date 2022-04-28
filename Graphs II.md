@@ -274,3 +274,5 @@ This expression is quite close to what our framework would have construct. There
 **Conclusion**: This is probably the best and most general form of a neural network that operates on sets, without assuming or inferring additional structure or relations (**edges**).
 
 ### Learning On Graphs
+
+Tomorrow morning...
