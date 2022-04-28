@@ -103,7 +103,7 @@ _e.g_:
 
 Given an unordered set of **five nodes** and their features being $$\{ x_1, x_2, x_3, x_4, x_5\}$$, we are asked to learn some class of functions, neural networks, that will take the features of these individual nodes and produce an output on the level of the entire set. This function $$f$$ is desired to be **resistant** to the **order** in which we fed these features.
 $$
-f(\{ x_1, x_2, x_3, x_4, x_5\}) = y = \{x_2, x_5, x_4, x_3, x_1\}
+f(\{ x_1, x_2, x_3, x_4, x_5\}) = y = f(\{x_2, x_5, x_4, x_3, x_1\})
 $$
 **Conclusion**: Even if we completely perturb the order in which we give the set elements to the function $$f$$ we expect the output $$y$$ to be unaffected. In the framework of **GDL** this corresponds to using the **n-element Permutation group** $$\Sigma_{n}$$ as our **symmetry group** $$\boldsymbol{\mathfrak{G}}$$. The different group elements within this symmetry group will be the **permutations**
 $$
