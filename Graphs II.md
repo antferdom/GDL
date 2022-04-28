@@ -157,32 +157,32 @@ Such matrices, called **permutation matrices** (group action $$\rho(\boldsymbol{
 _e.g_: For our initial example
 $$
 \boldsymbol{X}=
-\begin{pmatrix}
+\begin{bmatrix}
 \boldsymbol{x_1} \\
 \boldsymbol{x_2} \\
 \boldsymbol{x_3} \\
 \boldsymbol{x_4} \\
-\end{pmatrix}
+\end{bmatrix}
 $$
 
 
 the permutation matrix looks as follows:
 $$
 \boldsymbol{P_{(2,4,1,3)}} =
-\begin{pmatrix}
+\begin{bmatrix}
 0 & 1 & 0 & 0\\
 0 & 0 & 0 & 1\\
 1 & 0 & 0 & 0\\
 0 & 0 & 1 & 0\\
-\end{pmatrix}
+\end{bmatrix}
 $$
 Its effect when **left-multiplied** is to permute rows of $$\boldsymbol{X}$$ as follows
 $$
-\boldsymbol{P}\boldsymbol{X} = \begin{pmatrix}
+\boldsymbol{P}\boldsymbol{X} = \begin{bmatrix}
 \boldsymbol{x_2} \\
 \boldsymbol{x_4} \\
 \boldsymbol{x_1} \\
 \boldsymbol{x_3} \\
-\end{pmatrix}
+\end{bmatrix}
 $$
 
