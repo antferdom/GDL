@@ -168,12 +168,12 @@ $$
 
 the permutation matrix looks as follows:
 $$
-\boldsymbol{P_{(2,4,1,3)}} =
+\boldsymbol{P}_{(2,4,1,3)} =
 \begin{bmatrix}
-0 & 1 & 0 & 0\\
-0 & 0 & 0 & 1\\
-1 & 0 & 0 & 0\\
-0 & 0 & 1 & 0\\
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
 \end{bmatrix}
 $$
 Its effect when **left-multiplied** is to permute rows of $$\boldsymbol{X}$$ as follows
@@ -186,3 +186,14 @@ $$
 \end{bmatrix}
 $$
 
+**Conclusion**: This examples illustrates that the permutation matrix is exactly the representation of the **group action** of the of the **permutation group**. Thus we can use this **matrix representation** to reason about permutations while being in the universe of **linear algebra**, which is going to make all of the subsequent analysis a lot easier.
+
+### Permutation invariance
+
+We want functions $$f(\boldsymbol{X})$$ that operate over sets node features, that will **NOT** depend on the **order** of the nodes. Equivalently if we apply a permutation matrix to $$\boldsymbol{X}$$, it **shouldn't change** the **result**. Thus $$f(\boldsymbol{X})$$ is permutation invariant if and only, for **all** permutation matrices $$\boldsymbol{P}$$:
+$$
+f(\boldsymbol{PX}) = f(\boldsymbol{X})
+$$
+This property is desirable for set neural networks when we **assume** that our domain is **unordered** sets. We then say that the set neural network $$f(\boldsymbol{X})$$ is permutation invariant if and only if independently of the chosen $$\boldsymbol{X}$$ matrix chosen, the result stills **unchanged**.
+
+We can compare this with our requirement in the geometric deep learning framework for $$\boldsymbol{\mathfrak{G}}$$-**invariant layer**, and specifically in this case, our $$f$$ corresponds to the $$\boldsymbol{\mathfrak{G}}$$-**invariant layer** $$A$$, and the group action $$\boldsymbol{\mathfrak{g}}$$ corresponds to applying a permutation matrix. Therefore we have a **one-to-one** correspondence with the framework. 
