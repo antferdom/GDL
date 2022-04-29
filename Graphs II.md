@@ -69,15 +69,13 @@ _e.g._:
 
 > “_The image of the world around us, which we carry in our head, is just a *model*. Nobody in his head imagines all the world, government or country. He has only selected ***concepts***, and ***relationships*** between them, and uses those to represent the real system._” **Jay Wright Forrester 1971**
 
-## Sets: Graphs Without Connections
+## Learning On Sets: Graphs Without Connections
 
 ### Why?
 
 1. Graphs without connections, called **unordered sets**, have only **nodes** and no connections between them. This structure construct a simpler **domain**, so it's going to be much easier to analyse the geometric architectures that arise. 
 2. A significant part of the conclusions we achieve from sets will naturally carry over to graphs.
 3. Even if we restrict ourselves completely to processing data on sets following this kind of structure, it would still a relevant area. _e.g_: **point clouds** data
-
-### Learning On Sets
 
 #### Setup
 
@@ -273,6 +271,108 @@ This expression is quite close to what our framework would have construct. There
 
 **Conclusion**: This is probably the best and most general form of a neural network that operates on sets, without assuming or inferring additional structure or relations (**edges**).
 
-### Learning On Graphs
+## Learning On Graphs
 
-Tomorrow morning...
+Now we can generalize the structure of the set of nodes, assuming they have **edges** between them constructing relations. Thus we consider graphs $$\delta = (V,E)$$ where $$E \subseteq V \times V$$ is a subset of the [cartesian product](https://ncatlab.org/nlab/show/cartesian+product).
+
+Further information about graphs definition and properties can be found at chapter:
+
+{% content-ref url="Graphs I.md" %}
+[Graphs I.md](Graphs I.md)
+{% endcontent-ref %}
+
+Our representation of **edges** will be consistent with the realms of **linear algebra**. So we can represent these edges in an **adjacency matrix**, which is a binary matrix, denoted by $$\boldsymbol{A}$$. By using this representation edges have now become part of the domain. Any further additions like **edges features** or **weights** to them are completely possible.
+
+Nevertheless, we are going to limit ourselves to work without any additional information attached to edges, although all the derived math related to just edges as a binary matrix, will carry out to more complex structures. So we will just conceive every edge is just a binary indicator of whether or not two nodes are connected.
+
+Our **main** desire with sets holds for graphs, since we also want our graph neural networks to be **resistant** to **permutations** over the **nodes** and **edges** which construct the graph.
+
+### Permutation invariance & equivariance
+
+We assume there's some **connectivity** structure between our nodes. Therefore when we permute the nodes, we expect the **edges** to accordingly act and be permuted **identically**. We assume that after applying the permutation we will obtain **2** [isomorphic](https://ncatlab.org/nlab/show/isomorphism) **graphs**.
+
+When the nodes are permuted, we need to appropriately permute both **rows** and **columns** of adjacency matrix $$\boldsymbol{A}$$. Thus if we are using a **permutation matrix**, denoted by $$\boldsymbol{P}$$, to permute our nodes, that means we are reordering our adjacency matrix $$\boldsymbol{A}$$ as $$\boldsymbol{PAP^{\top}}$$. The first $$\boldsymbol{P}$$ is reponsible for permuting the **rows** and the permutation matrix **transpose** deals a permutation of the **columns**.
+
+- **Invariance**
+
+$$
+f(\boldsymbol{PX},\boldsymbol{PAP^{\top}}) = f(\boldsymbol{X})
+$$
+
+- **Equivariance**
+
+$$
+\boldsymbol{F(\boldsymbol{PX},\boldsymbol{PAP^{\top}})} = P\boldsymbol{F(\boldsymbol{X,A})}
+$$
+
+**Conclusion**: This two properties carry over very naturally from sets.
+
+### Locality: Neighbourhoods
+
+Locality doesn't carry over as naturally as invariance and equivariance do from sets. We now **assume** there might exist **relations** between nodes, which in fact means we musn't transform every node just in **isolation**. Thus graphs give us a broader context by the so-called node's neighbourhood.
+
+**Node's neighbourhood**: For a node $$i$$, we can derive its **1-hop** neighbourhood, denoted by $$\mathcal{N}_i$$, as the set of all **nodes** $$j$$ which are **connected** to $$i$$  exclusively with one **edge**.
+$$
+\mathcal{N}_i = \{ j : (i,j) \in E \: \or \: (j,i) \in E \}
+$$
+Accordingly, we can extract neighbourhood features, $$\boldsymbol{X}_{\mathcal{N}_i}$$ , like so:
+$$
+\mathcal{N}_i = \{ \boldsymbol{x}_j : j \in \mathcal{N}_i \}
+$$
+Now we can do something more **generic** than just having a point-wise **local function**, we can have a local function, denoted by $$\phi$$, operates over the **node** itself and its **neighbourhood**.
+$$
+\phi(\boldsymbol{x}_i,\mathcal{N}_i )
+$$
+Doing so, we can construct permutation **equivariant** functions $$\boldsymbol{F(X,A)}$$, by appropriately applying the local function $$\phi$$, over all **neighbourhoods**.
+$$
+\boldsymbol{F(X,A)} =
+\begin{bmatrix}
+\phi(\boldsymbol{x}_1,\mathcal{N}_1 ) \\
+.. \\
+..\\
+\phi(\boldsymbol{x}_n,\mathcal{N}_n ) \\
+\end{bmatrix}
+$$
+
+To ensure equivariance, it's sufficiente if $$\phi$$ **doesn't** depend on the **order** of the nodes $$\mathcal{N}_i$$
+
+
+
+## Graph Neural Networks
+
+![Graph Neural Network example](./img/graphs/II/GNN.png)
+$$
+\boldsymbol{X}_{\mathcal{N}_{i}} = \{ \{ \boldsymbol{x}_a, \boldsymbol{x}_b, \boldsymbol{x}_c, \boldsymbol{x}_d, \boldsymbol{x}_e \} \}
+$$
+We have built an **equivariant** function on graphs by using another **local permutation invariant** function, **learnable** and denoted by $$\phi$$,  acting at **node** level. The graph neural network computes **new features representation** for a node given its neighbourhood of features, denoted by $$\boldsymbol{X}_{\mathcal{N}_{I}}$$ , which for the sake of extra context can **contain the node itself**. Apply the local function $$\phi$$ corresponds to the expression:
+$$
+\boldsymbol{h_i} = \phi(\boldsymbol{x}_i, \boldsymbol{X}_{\mathcal{N}_{i}})
+$$
+We then **parallelize** the application of this local function in **isolation** to every single node conforming the **graph**.
+
+### General procedure
+
+Given as inputs to a graph neural network, a graph with feature inputs, denoted by $$\boldsymbol{X}$$, such that a particular node and its feature representation, $$\boldsymbol{x}_i$$, and some adjacency matrix $$\boldsymbol{A}$$, the application of this function will update our features (inputs) to their **latents** representation.
+$$
+\boldsymbol{GNN(X,A)} \to \boldsymbol{(H,A)}
+$$
+This update of a particular node depends on its neighbourhood features and, if desired, by itself. The adjacency matrix structure is preserved through this update, although there is room for more sophisticated procedures which could explicitly change the relations living in the graph.
+
+From this general procedure emerges several possible tasks:
+
+- $$\textcolor{Red}{Node}$$ **classification**: We can effectively learn a classifier acting at node level to predict likelihood node features output.
+$$
+\boldsymbol{z}_i = f(\boldsymbol{h}_i)
+$$
+
+- $$\textcolor{Green}{Graph}$$ **classification**: Classifications at the level of the entire domain forces us to somehow transform our nodes features in a **permutation invariant** form. Generally this is achieved using a generic **aggregator operator,** $$\bigoplus$$, which could be the **summation** or average.
+$$
+\boldsymbol{z}_G = f(\bigoplus_{i \in \mathcal{V}}\boldsymbol{h}_i)
+$$
+
+- $$\textcolor{Blue}{Link}$$ **prediction** (edge classifier): Because now edges are an important part of our domain, we can also do predictions over edges. For example, edge classification and edge regression are factible. We can also estimate the likelihood of an edge existing between one or several nodes. We would need a function that takes under consideration both neighborhoods, the one comming from the node $$i$$ and the one from $$j$$. In addition, we can use any possible and existent information present in their edges, denoted by $$\boldsymbol{e}_{ij}$$.
+$$
+\boldsymbol{z}_{ij} = f(\boldsymbol{h}_i, \boldsymbol{h}_j, \boldsymbol{e}_{ij})
+$$
+
+![Tmp image](./img/graphs/II/GNN_apply.png)
