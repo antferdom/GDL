@@ -376,3 +376,28 @@ $$
 $$
 
 ![Tmp image](./img/graphs/II/GNN_apply.png)
+
+
+
+#### Local permutation invariant function
+
+The local permutation invariant function, denoted by $$\phi(\boldsymbol{x}_i, \boldsymbol{X}_{\mathcal{N}_{i}})$$, shared applied to every node, guarantees that we can in fact construct permutation equivariant functions on graphs, $$\boldsymbol{F(X,A)}$$. This $$\phi$$ can be called, depending on the literature as:
+
+1. **Message passing**
+2. **Diffusion**
+3. **Propagation**
+
+Whereas $$\boldsymbol{F}$$ corresponds to a **layer** in the GNN architecture. Finding and building good candidates to become this local function $$\phi$$ ,is one of the most active areas of research nowadays in the field of GNNs. Nevertheless, all of these proposed local functions can be **derived** and reasoned under the geometric deep learning framework using **three spatial flavours**.
+
+1. **Convolutional**
+2. **Attentional**
+3. **Message-passing**
+
+As we go from **1**, convolutional,  to **2**, message-passing, the number of possible representable functions **growths**. We can represent convolutional layers as a special case of attentional layers, and represent attentional layers using message passing layers. The more right we go, the complex the problem we can fit, but at expenses of **poor scalability** (trade-off).
+
+##### Convolutional
+
+##### Attentional
+
+##### Message-passing
+
