@@ -393,11 +393,107 @@ Whereas $$\boldsymbol{F}$$ corresponds to a **layer** in the GNN architecture. F
 2. **Attentional**
 3. **Message-passing**
 
-As we go from **1**, convolutional,  to **2**, message-passing, the number of possible representable functions **growths**. We can represent convolutional layers as a special case of attentional layers, and represent attentional layers using message passing layers. The more right we go, the complex the problem we can fit, but at expenses of **poor scalability** (trade-off).
+As we go from **1**, convolutional, to **2**, message-passing, the number of possible representable functions **grows**. We can represent convolutional layers as a special case of attentional layers, and represent attentional layers using message passing layers. The more right we go, the more complex the problem we can fit, but at the expense of **poor scalability** and increasing the risk of **overfitting** the data. There is room for trade offs attending to our context.
 
 ##### Convolutional
 
+We have not clearly defined a decision method to correctly anticipate how to aggregate all the neighbors in the neighborhood. The **neighborhood size** for a given node could hugely vary concerning the average of the other nodes of the graph. We cannot be too pragmatic about **size-dependent kernels (filters)**, those filters whose behavior and configuration strictly depend on their input size.
+
+Question: **What do convolutional GNNs accomplish**?
+
+**Answer:** They quantify how meaningful an individual neighbor is relative to a specific node. To express how a particular neighbor influences a node, we are going to use **weights**, denoted by c_{ij}. Consequently, we are going to do a **point-wise** transformation to all of our node features, and then every node will compute a **weighted combination** of all of its neighbors based on the c_{ij} coefficients.
+$$
+\boldsymbol{h}_i = 
+\phi \Bigg ( \boldsymbol{x}_i, \bigoplus_{j \in \mathcal{N}_i}\textcolor{Orange}{c_{ij}} \psi(\boldsymbol{x_j})
+\Bigg )
+$$
+![tmp convolutional GNN](./img/graphs/II/convolutional_gnn.png)
+
+*e.g.* 
+
+We sum all our neighbors, where each one is multiplied by the corresponding weight. 
+
+The essential part of this whole procedure is that these weights were already predefined before applying the graph neural network. Thie **adjacency matrix** dictates these weights accordingly to the graph topology.
+
+Widespread instances of these kinds of layers include but are not exclusive:
+
+- ChebyNet (Defferrard *et al.,* NeurIPS'16)
+- **G**raph **C**onvolutional **N**etwork (Kipf & Welling, ICLR'17): This is currently the top-cited graph neural network paper.
+- **S**implified **G**raph **C**onvolutional (Wu *et al.*, ICML'19): Has shown how simple these layers can become and can still recover mostly any real-world graph.
+
+Because convolutional GNNs **specify the weights** before anything **and** are usually some function of the **graph topology**, these models are helpful when our graphs are **homophilous**.
+
+**Homophilous graphs**: Graphs whose edges encode label similarities. The majority of our neighbors are expected to share the same label with high statistical significance. Thus averaging is a robust **regularizer** since the feature representation of a particular node will highly rely on the features of all its neighbors.
+
+As the coefficients are predefined, this equation can be efficiently computed using **sparse matrix** multiplication. This explains why this type of GNNs are the most industrial ones nowadays, as they can handle large graphs with applicational value.
+
 ##### Attentional
 
+Given a particular neighborhood, we do **not** need to **assume** that edges necessarily encode **similarity** as we have done in convolutional GNNs. This precondition of defining weights between nodes in the same neighborhood cannot be **generalized**. It will not be suitable for learning graphs that count with more **complex** relations.
+
+*e.g.* social network interactions
+
+Doing a retweet of somebody else opinion does not strictly means that we might share the same thoughts. We can even wholly disagree.
+
+More suitable graph neural network architectures exist to encapsulate more complex graph relations among nodes. They quantify node relations as a function done in a **feature-dependent** matter rather than a pure graph topology computation. 
+$$
+\boldsymbol{h}_i = 
+\phi \Bigg ( \boldsymbol{x}_i, \bigoplus_{j \in \mathcal{N}_i} 
+\textcolor{Green}{a(}\boldsymbol{x}_i, \boldsymbol{x}_j \textcolor{Green}{)} 
+\psi(\boldsymbol{x_j})
+\Bigg )
+$$
+![tmp convolutional GNN](./img/graphs/II/attentional_gnn.png)
+
+One very natural form of achieving this is by using an **attention mechanism**. So in convolutional graph neural networks, we previously had fixed coefficient interactions, whereas now these coefficients are computed based on the **sender** and **receiver** node features.
+
+We have **replaced** the $$c_{ij}$$ **constant** coefficient with an **attention function** that takes features of $$x_i$$ and $$x_j$$ and produces a **scalar**, denoted by $$\alpha_{ij}$$.
+$$
+\alpha_{ij} = \textcolor{Green}{a(}\boldsymbol{x}_i, \boldsymbol{x}_j \textcolor{Green}{)}
+$$
+
+
+Some trendy models tried to conceive this attention procedure idea within the graph domain:
+
+- MoNet (Monti *et al.,* CVPR’17)
+- **G**raph **AT**tention network  (Veličković *et al*., ICLR’18)
+- GATv2 (Brody *et al.*, 2021):  It is an improved and enhanced successor of **GAT**, since it solves the **static attention** problem in graph attention networks.
+
+We are **not** obligated to **assume** that our graph is **homophilous**. We can now learn a radical set of complex and new interactions between nodes. The computational cost keeps feasible, with just **one scalar** per **edge**. Thus we are able to increase our learnability bounds without sacrificing scalability. Once these new scalars have been computed, we are dealing again with the earlier introduced sparse matrix multiplication employed in the convolutional world.
+
+Attentional architectures are the de facto standard today for acquiring and learning complex interactions. This architecture shines in those graphs, which we expect there will be a complex behavior emergence along their edges. More about this field, including the acclaimed **transformer** architecture, in the upcoming chapter.
+
 ##### Message-passing
+
+They are the most generic form of graph neural network layer we can tangibly achieve. We **no** longer **assume** that our edges encode a particular **weighted combination** that needs to be computed. Edges give us a **recipe** to pass **data**, and the **message function** determines what data actually is moving to which node. We can compute arbitrary vectors, the so-called **message vectors**, to be **sent** across **edges**.
+$$
+\boldsymbol{h}_i = 
+\phi \Bigg ( \boldsymbol{x}_i, \bigoplus_{j \in \mathcal{N}_i} 
+\textcolor{Red}{\psi(}
+\boldsymbol{x}_i, \boldsymbol{x}_j \textcolor{Red}{)}
+\Bigg )
+$$
+
+![tmp convolutional GNN](./img/graphs/II/messagePassing_gnn.png)
+
+There is a vast difference between the procedures employed in the convolutional and attentional mechanisms. We had to compute **something** in our **neighbor** and then **aggregate** that in a weighted combination. The neighbor decides the aggregation influence, but the **receiver** also alters the final aggregation.
+
+The $$\psi$$ function acts now on both the **sender** and the **receiver** node. They cooperate to compute a message vector, denoted by
+$$
+\boldsymbol{m}_{ij} = \textcolor{Red}{\psi(}
+\boldsymbol{x}_i, \boldsymbol{x}_j \textcolor{Red}{)}
+$$
+which then the **receiver** node aggregates in some **permutation invariant** form.
+
+There exist plenty of popular layers that suggest message passing computation:
+
+- Interaction Nets (Battaglia *et al.,* NeurIPS’16)
+- **M**essage **P**assing **N**eural **N**etworks (Gilmer *et al*., ICML’17)
+- Deepmind **GraphNets** (Battaglia *et al.*, 2018)
+
+Nevertheless, these immense expressivity capabilities do not come without expenses. These graph neural networks become **harder** to interpret, scale, **and learn.** Although, this expressivity is obliged and unavoidable in tasks linked to computational chemistry, reasoning, and simulations. These tasks necessitate edges as a recipe for passing messages. There are many parameters to be learned involved within this mechanism.
+
+**Conclusion:** The set of functions representable by convolutional GNNs, is less than or equal to the ones representable by attentional, and this latest one is capable of representing less than or equal to message passing. They are in increasing order of generality.
+
+**covolutional** $$\subseteq$$ **attentional** $$\subseteq$$ **message-passing**
 
